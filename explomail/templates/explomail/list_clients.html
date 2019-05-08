@@ -1,0 +1,57 @@
+
+
+{% extends "explomail/base.html" %}
+
+{% block content %}
+
+{% load static %}
+<!-- <script type="text/javascript" src="http://mbostock.github.com/d3/d3.v2.js"></script> -->
+<script type="text/javascript" src="{% static "d3/d3.js" %}"></script>
+<script type="text/javascript" src="{% static "explomail/scatterplot.js" %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static "explomail/scatterplot.css" %}">
+
+
+<h2>Meta data</h2>
+{% if info_list %}
+<ul>
+<li>Number of clients: {{info_list|length}}</li>
+<li>...</li>
+</ul>
+{% endif%}
+
+<h2>Visualization examples</h2>
+
+<div id='graph1'>
+  <!-- /the chart goes here -->
+</div>
+<script type="text/javascript"> 
+    make_scatter_plot( JSON.parse("{{plot_data}}"), 
+                        "graph1", 
+                        "Number of mails", 
+                        "Email length (characters)", 
+                        700, 500,
+                        {{client_codes|safe}});
+</script>
+
+<h2>List of clients</h2>
+
+{% if info_list %}
+    <table border = 1 border-collapse= "collapse">
+    <tr>
+      <td>Name</td>
+      <td>#mails</td>
+      <td>Ave. length</td>
+    </tr>
+    {% for r in info_list %}
+    <tr>
+      <td> <a href="{% url 'explomail:client_detail' r.id %}">{{ r.name }}</a> </td>
+      <td> {{ r.nr_mails }}</td>
+      <td> {{ r.ave_length }}</td>
+    </tr> 
+    {% endfor %}
+    </table>
+{% endif %}
+
+
+
+{% endblock %}

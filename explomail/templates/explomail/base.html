@@ -1,0 +1,53 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+    
+</head>
+
+<style> 
+    table {
+        border-collapse: collapse;
+    }
+    h1 {
+        color: #fff;
+        background-color: #1C6EA4;
+        
+    }
+
+/*table, th, td {
+    border: 0px solid black;
+}*/
+</style>
+
+
+<body>
+
+<center>
+<table width = "800" border=1>  
+<tr> <td align = center>
+    <h1 id="title">4w Mail analyzer</h1>
+</td></tr>
+<tr> <td align=center>
+    <a href="{% url 'explomail:index' %}">Home</a> |
+    <a href="{% url 'explomail:client_list' %}">Clients</a> |
+    <a href="{% url 'explomail:search' %}">Search mails</a> 
+</td></tr>
+
+<tr> <td align=center>
+    <table width="80%" border=0px ><tr><td>
+
+    {% block content %}
+    {% endblock %}
+
+    </td></tr></table>
+
+</td></tr>
+</table>
+</center>
+
+</body>
+
+</html>

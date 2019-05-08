@@ -1,0 +1,47 @@
+
+
+{% extends "explomail/base.html" %}
+
+
+{% block content %}
+
+
+<h2>Meta info</h2>
+{% if mail %}
+    (DB record created: {{mail.created}})<br>
+    From: {{mail.sender}} <br>
+    To: {{mail.receiver}} <br>
+    Datum: {{mail.date}} <br>
+    Subject: {{mail.subject}} <br>
+    <br>
+
+<h2>Analysis</h2>
+    Pattern sentiment analysis:<br>
+    <ul>
+    	<li> polarity: {{polarity}}</li>
+	    <li> subjectivity: {{subjectivity}}</li>
+    </ul>
+
+<h2>Mail text</h2>
+{% if mail_pattern %}
+{% if all_words_found == False %}
+	<b>(Not all words found by the sentiment analyser were marked in the text.)</b>
+{% endif %}
+<br><br>
+{{mail_pattern | safe}}
+{% endif %}
+
+{% if assessments %}
+<h2>Assessments</h2>
+<ul>
+	{% for w, p, s, n in assessments %}
+		<li>{{w}}, p={{p|floatformat}}, s={{s|floatformat}}</li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+{% else %}
+    <p>No mail available.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,88 @@
+
+
+{% extends "explomail/base.html" %}
+
+{% block content %}
+
+{% load static %}
+<!-- <script type="text/javascript" src="http://mbostock.github.com/d3/d3.v2.js"></script> -->
+<script type="text/javascript" src="{% static "d3/d3.js" %}"></script>
+<script type="text/javascript" src="{% static "explomail/scatterplot.js" %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static "explomail/scatterplot.css" %}">
+
+
+
+{% if search_results %}
+<h2>Search parameters:</h2>
+<ul>
+    <li> Client search string = {{ client_search }}
+    <li> Body search string = {{ body_search }}
+</ul>
+{% endif %}
+
+{% if stats %}
+<h2>Stats for your search</h2>
+<ul>
+<li>Number of records found: {{nr_of_hits}}</li>
+<li>Number of clients: {{nr_of_clients}}</li>
+{% if ave_search_mail_length %}
+<li>Average mail length: {{ave_search_mail_length}}</li>
+{% endif %}
+</ul>
+{% endif %}
+
+
+
+
+{% if search_results %}
+<h2>Search results</h2>
+{% endif %}
+
+{% if plot_data %}
+
+<div id='graph1'>
+  <!-- /the chart goes here -->
+</div>
+<script type="text/javascript"> 
+    make_scatter_plot( JSON.parse("{{plot_data}}"), 
+                        "graph1", 
+                        "polarity", 
+                        "subjectivity", 
+                        700, 500);
+</script>
+
+{% endif %}
+
+{% if not search_results %}
+<h2>List of all mails</h2>
+{% endif %}
+
+{% if list_mails %}
+    <ul>
+    <table border = 1 width="80%">
+        <tr>
+        <td>Client</td>
+        <td>From</td>
+        <td>To</td>
+        <td>Study</td>
+        <td>Data set</td>
+        <td>Content</td>
+        </tr>
+    {% for mail in list_mails %}
+        <tr>
+        <td><a href="{% url 'explomail:client_detail' mail.client.id %}">{{mail.client.name}}</a></td>
+        <td>{{mail.sender}}</td>
+        <td>{{mail.receiver}}</td>
+        <td>{{mail.study}}</td>
+        <td>{{mail.data_set}}</td>
+        <td><a href="{% url 'explomail:detail' mail.id %}">details</a></td>
+        </tr>
+    {% endfor %}
+    </table>
+    </ul>
+{% else %}
+    <p>No mails are available.</p>
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,98 @@
+
+
+{% extends "explomail/base.html" %}
+
+
+{% block content %}
+
+<!-- LOADING SCRIPTS -->
+{% load static %}
+<!-- <script type="text/javascript" src="http://mbostock.github.com/d3/d3.v2.js"></script> -->
+<script type="text/javascript" src="{% static "d3/d3.js" %}"></script>
+<script type="text/javascript" src="{% static "explomail/scatterplot.js" %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static "explomail/scatterplot.css" %}">
+
+
+
+<!-- MAIN CONTENT OF PAGE -->
+{% if client and mail_length %}
+
+    <h2>Name: {{client.name}} </h2>
+    <small>(DB record created: {{client.created}})</small><br>
+
+    <h2>Meta data</h2>
+    <ul>
+    <li>Mails send by client: {{mail_length|length}}/{{mails|length}}</li>
+    {% if ave_mail_length %}
+    <li>Average mail length client: {{ave_mail_length}} chars<br></li>
+    {% endif %}
+    </ul>
+
+    <h2>Visualizations</h2>
+    <div id='graph1'>
+      <!-- /the chart goes here -->
+    </div>
+    <script type="text/javascript"> 
+        make_scatter_plot( JSON.parse("{{data}}"), "graph1", "\"Time\"", "Email length (characters)", 600, 300, 
+                            {{data|safe}} )
+    </script>
+
+    <h2>List of mails: </h2>
+        <!-- START WALKING OVER THE EMAILS -->
+    {% if mails %}
+        <table border=1>
+            <tr>
+                <td>
+                    Sender
+                </td>
+                <td>
+                    Receiver
+                </td> 
+                <td>
+                    Client name
+                </td> 
+                <td>
+                    Time order
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    #chars
+                </td>
+            </tr>
+        <!-- START WALKING OVER THE EMAILS -->
+        {% for mail in mails %}
+            <tr>
+                <td>
+                    {{mail.sender}}
+                </td>
+                <td>
+                    {{mail.receiver}}
+                </td> 
+                <td>
+                    {{mail.client.name}}
+                </td> 
+                <td>
+                    {{mail.chronological_order}}
+                </td>
+                <td>
+                    <a href="{% url 'explomail:detail' mail.id %}">details</a>
+                </td>
+                <td>
+                    {{mail.text|length}}
+                </td>
+            </tr>
+
+        {% endfor %}
+        </table>
+
+
+{% endif %}
+    
+    
+{% else %}
+    <p>No client available.</p>
+{% endif %}
+
+{% endblock %}

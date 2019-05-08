@@ -1,0 +1,52 @@
+
+{% extends "explomail/base.html" %}
+
+{% block content %}
+
+<h1>A simple demo to facilitate discussion</h1>
+6 nov 2018<br>
+
+<h2>Goals:</h2>
+<ul>
+	<li>Make data and results accessible:</li>
+	<ul>
+		<li>For non-programmers</li>
+		<li>For programmers</li>
+	</ul>
+	<li>Be able to use many of the <b>avaliable</b> tools</li>
+	<li>Be able to implement <b>new</b> tools
+	<li>Have a database structure and use its tools (searches, etc)</li>
+	<li>Be able to run on different machines</li>
+</ul>
+
+
+<h2>A first demo</h2>
+
+An idea: a web application using <b>django</b>
+<ul>
+	<li>Pros</li>
+	<ul>
+		<li>Django is written in python</li>
+		<li>Easy to incorporate new and existing tools</li>
+		<li>Access to data:
+		<ul>
+			<li>Human-Data interaction through your browser</li>
+			<li>Machine-Data access through an API</li>
+		</ul>
+		<ul>
+			<li>For R you can use the httr library for example</li>
+		</ul>
+		<li>Runs on Windows, Mac and Linux</li>
+		<li>Django implements several databases and search strategies</li>
+	</ul>
+	<li>Cons</li>
+	<ul>
+		<li>To use it you need to run a server locally, which makes starting up less friendly</li>
+	</ul>
+</ul>
+
+<br>
+<br>
+<br>
+<br>
+{% endblock %}
